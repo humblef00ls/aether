@@ -1,3 +1,7 @@
+<script>
+	import successkid from 'images/successkid.jpg';
+</script>
+
 <style>
 	h1, figure, p {
 		text-align: center;
@@ -39,8 +43,8 @@
 <h1>Great success!</h1>
 
 <figure>
-	<img alt='Borat' src='great-success.png'>
-	<figcaption>HIGH FIVE!</figcaption>
+	<img alt="Success Kid" src="{successkid}">
+	<figcaption>Have fun with Sapper!</figcaption>
 </figure>
 
 <p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>

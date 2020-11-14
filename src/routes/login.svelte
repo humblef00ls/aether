@@ -37,7 +37,8 @@
                         createdOn: firebase.firestore.FieldValue.serverTimestamp(),
                         username: username,
                         picture: 'https://www.alliancerehabmed.com/wp-content/uploads/icon-avatar-default.png',
-                        balance: 1000
+                        balance: 0,
+                        portfolio:{}
                     })
                     goto(`/profile/${username}`);
                 })

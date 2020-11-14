@@ -30,7 +30,7 @@
     async function getTrades() {
    // console.log(user.uid)
    trades = []
-    await firebase.firestore().collection("transaction").where("stock", "==", slug.toUpperCase()).limit(5)
+    await firebase.firestore().collection("transaction").where("stock", "==", slug.toUpperCase()).orderBy('time','desc').limit(5)
         .get()
         .then(snap=>{
             snap.forEach(doc=>{

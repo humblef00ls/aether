@@ -72,7 +72,8 @@ main{
     color: white;
 	width: 100vw;
 	max-width: 100vw;
-    height:100vh
+    height:100vh;
+	overflow-x: hidden;
 }
 section{
 	z-index: 1;

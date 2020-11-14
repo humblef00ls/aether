@@ -232,8 +232,9 @@
 
 height: 100%;
 overflow-y: auto;
-    width: 90%;
+    width: 89%;
     margin-left: 5%;
+    max-width: calc(100vw - 85px);
   }
   .posts{
     position: relative;

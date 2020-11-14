@@ -24,7 +24,6 @@
   // }
 
   async function mount() {
-    console.log($userName)
     await firebase.firestore().collection("users").where("username", "==", $userName)
         .get()
         .then(snap=>{
@@ -59,6 +58,7 @@
         db.collection("transaction").where("uid", "in", followingIds).orderBy("time", "desc").limit(15).get().then(function(snap) {
           snap.forEach(function(item) {
             var transType = 'Bought';
+            let transId = item.id;
             if (item.data().type == 'sell') {
               transType = 'Sold';
             }
@@ -66,12 +66,12 @@
             var time = item.data().time.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             var user = getUserInfo(db, item.data().uid).then(function(user) {
               var crypto = getCryptoInfo(db, item.data().stock).then(function(crypto) {
-                var like = getLikeStatus(db, currentUid, item.data().transid).then(function(like) {
-                  var count = getLikeCount(db, item.data().transid).then(function(count) {
-                    var comments = getComments(db, item.data().transid).then(function(comments) {
+                var like = getLikeStatus(db, currentUid, transId).then(function(like) {
+                  var count = getLikeCount(db, transId).then(function(count) {
+                    var comments = getComments(db, transId).then(function(comments) {
                       var commentsWithNames = getUsernames(db, comments).then(function(finalComments) {
                         var post = {username: user.uname,
-                          transid: item.data().transid,
+                          transid: transId,
                           currentUid: currentUid,
                           amount: item.data().amount,
                           userLogo: user.picture,

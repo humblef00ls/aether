@@ -3,14 +3,18 @@
     import { stores } from "@sapper/app";
     import { onMount } from "svelte";
     import Trade from '../../components/Trade.svelte';
+    import Leftbar from "../../components/Leftbar.svelte";
+	  import { prices, user, userName } from './../_stores';
+    const {page} = stores()
 
-
-	import { prices } from './../_stores';
-    const {page,session} = stores()
-
-
+    export let falcon = false
+    export let loggedIn = false
     let currentUser
     let currentUid
+
+    $: if ($user) {
+      loggedIn = true
+    }
 
 
     const map = {
@@ -77,13 +81,11 @@
 </script>
 
 <head>
-  <title>Search</title>
+  <title>Currency – {map[slug.toUpperCase()]}</title>
 </head>
 <!--Content goes here-->
 <body>
 <main>
-
-
   <div class = "content">
     <h1>{map[slug.toUpperCase()]}, {slug.toUpperCase()}</h1> 
     <h2 class = "header">${$prices[slug.toUpperCase()]}</h2>
@@ -103,21 +105,19 @@
 </body>
 
 <style>
-    /* Container to center page on a screen */
-  .content {
-    padding: 40px;
-    text-align: center;
-  }
-
-  .header {
-    font-size: 30px;
-    color:#65ACFF;
-    text-align: center;
-    font-family: inherit;
-  }
-  main{
-
-    width: 90%;
-    margin-left: 5%;
-  }
+  /* Container to center page on a screen */
+.content {
+  padding: 40px;
+  text-align: center;
+}
+.header {
+  font-size: 30px;
+  color:#65ACFF;
+  text-align: center;
+  font-family: inherit;
+}
+main{
+  width: 90%;
+  margin-left: 5%;
+}
 </style>

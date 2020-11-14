@@ -18,7 +18,16 @@
   export let comments;
   var commentInput;
 
-
+  const map = {
+    'Bitcoin': 'BTC',
+    'Ripple': 'XRP',
+    'Litecoin': 'LTC',
+    'Dogecoin': 'DOGE', 
+    'Ethereum': 'ETH',
+    'Chainlink': 'LINK',
+    'Bitcoin Cash': 'BCH',
+    'Binance Coin': 'BNB'
+  }
 
   async function handleComment(id) {
     firebase.firestore().collection("comments").add({
@@ -91,8 +100,8 @@
           </td>
         </tr>
       </table>
-        {amount} of <a class = 'crypto-link' href = "cryptocurrency">{cryptoName}</a>
-        <a href = "cryptocurrency">
+        {amount} of <a class = 'crypto-link' href = "currencies/{map[cryptoName]}">{cryptoName}</a>
+        <a href = "currencies/{map[cryptoName]}">
 				  <img src = '{cryptoLogo}' class = 'transaction-logo' alt = 'cryptologo'>
         <br></a>
         <p class = 'transaction-caption'> <a class = "username-caption-link" href = "profile/{username}"> @{username}: </a>{transactionCaption}</p>
@@ -146,7 +155,6 @@
     width: 100%;
     position: relative;
   }
-
   .username-link {
     color: hsl(210, 35%, 40%);
     text-align: center;
@@ -154,48 +162,38 @@
     text-decoration: none;
     font-weight: 400;
   }
-
   .username-link:hover {
     color: hsl(210, 35%, 70%);
   }
-
   .transaction-description {
     font-size: 16px;
     text-align: center;
   }
-
   .crypto-link {
     color: hsl(210, 35%, 40%);
     text-decoration: none;
   }
-
   .crypto-link:hover {
     color: hsl(210, 35%, 70%);
   }
-
   .feed-avatar {
     border-radius: 50%;
     height: 50px;
     width: 50px;
     vertical-align: middle;
   }
-
   .feed-avatar:hover {
     transform: scale(1.1);
   }
-
   .transaction-header {
     width: 100%;
   }
-
   .transaction-profile-pic {
     width: 50px;
   }
-
   .transaction-name {
     width: 100%;
   }
-
   .transaction-date {
     font-family: inherit;
     text-align: right;
@@ -203,12 +201,10 @@
     color: hsl(210, 35%, 50%);
     white-space: nowrap;
   }
-
   .transaction-caption {
     font-size: 16px;
     text-decoration: none;
   }
-
   .comment {
     font-size: 12px;
     text-decoration: none;
@@ -219,7 +215,6 @@
     padding-top: 5pt;
     text-decoration: none;
   }
-
   .username-caption-link:hover {
     color: hsl(210, 35%, 70%);
   }
@@ -233,13 +228,11 @@
     white-space: nowrap;
     background: white;
   }
-
   .like-button:hover {
     cursor: pointer;
     border-color: hsl(210, 35%, 70%);
     color: hsl(210, 35%, 70%);
   }
-
   .like-and-comment {
     width: 100%;
     border-collapse: collapse;
@@ -247,17 +240,14 @@
     text-align: left;
     padding: 0px;
   }
-
   form {
     display: flex;
     justify-content: left;
   }
-
   .comment-input {
     font-family: inherit;
     border-color: hsl(0, 0%, 0%);
   }
-
   textarea {
     font-size: 12px;
     font-family: inherit;
@@ -269,7 +259,6 @@
     border-radius: 3px;
     border-color: hsl(0, 0%, 0%);
   }
-
   input {
     font-size: 12px;
     color: hsl(0, 2%, 30%);
@@ -280,22 +269,19 @@
     white-space: nowrap;
     background: white;
   }
-
   input:hover {
     cursor: pointer;
     border-color: hsl(210, 35%, 70%);
     color: hsl(210, 35%, 70%);
   }
-
   img {
     display: block;
     margin-left: auto;
     margin-right: auto;
     height: auto;
-    max-width: 150px;
+    max-width: 200px;
     min-width: 50px;
   }
-
   .card{
     font-family: inherit;
     border-radius: 15px;
@@ -306,9 +292,7 @@
     box-shadow: 0px 0px 7px 1px #00000057;
     grid-auto-flow: column;
     display: grid;
-
 }
-
 .left{
     font-family: inherit;
     display: flex;
@@ -336,7 +320,6 @@
     -webkit-user-select: none; /* Chrome/Safari */        
 -moz-user-select: none; /* Firefox */
 -ms-user-select: none; /* IE10+ */
-
 /* Rules below not implemented in browsers yet */
 -o-user-select: none;
 user-select: none;
@@ -350,7 +333,6 @@ user-select: none;
     cursor: pointer;
     stroke-width: 2
 } 
-
 .ok{
     fill: red;
     stroke: none;

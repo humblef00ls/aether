@@ -85,7 +85,8 @@
     box-shadow: 0px 0px 7px 1px #00000057;
     grid-auto-flow: column;
     display: grid;
-
+    margin-top: 10px;
+  margin-bottom: 10px;
 }
 .left{
     display: flex;

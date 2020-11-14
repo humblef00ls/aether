@@ -3,7 +3,7 @@
   
 import { onMount } from 'svelte';
 import { goto } from '@sapper/app';
-import { user } from './_stores';
+import { user, userName } from './_stores';
 
 let balance;
   	let numbers = 100;
@@ -32,13 +32,31 @@ let balance;
     			console.log("Error getting document:", error);
 			});
   		} else {
-			goto('/login')
+			  setTimeout(()=>{
+				if (!$user ) goto('/login')
+				else {
+					firebase.firestore().collection("users").doc($user)
+				.get()
+				.then(doc =>{
+    				if (doc.exists) {
+						balance = doc.data().balance;
+					} 
+					else {
+						goto('/login')
+						console.log("No such document!");
+					}
+			}).catch(function(error) {
+				goto('l/ogin')
+    			console.log("Error getting document:", error);
+			});
+				}
+			  },3000)
   		}
 	});
 	
 function addNumber() {
 	balance += numbers;
-	var sfDocRef = firebase.firestore().collection("users").doc(u);
+	var sfDocRef = firebase.firestore().collection("users").doc($user);
 	return firebase.firestore().runTransaction(function(transaction) {
     return transaction.get(sfDocRef).then(function(sfDoc) {
         if (!sfDoc.exists) {
@@ -56,7 +74,7 @@ function addNumber() {
 	}).then(function() {
     	alert("Transaction successfully committed!");
 	}).catch(function(error) {
-    	alert("Transaction failed: Not Enough balance!", error);
+    	alert( error);
 	});
     alert('Balance Added!');
 	}
@@ -65,7 +83,7 @@ function subNumber() {
 	if(balance - numbers >= 0){
 		balance -= numbers;
 	}
-	var sfDocRef = firebase.firestore().collection("users").doc(u);
+	var sfDocRef = firebase.firestore().collection("users").doc($user);
 
 	return firebase.firestore().runTransaction(function(transaction) {
     return transaction.get(sfDocRef).then(function(sfDoc) {

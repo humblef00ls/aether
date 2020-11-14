@@ -73,7 +73,7 @@ class User {
   async function getTrades() {
    // console.log(user.uid)
    trades = []
-    await firebase.firestore().collection("transaction").where("uid", "==", user.uid).orderBy('time').limit(10)
+    await firebase.firestore().collection("transaction").where("uid", "==", user.uid).orderBy('time','desc').limit(10)
         .get()
         .then(snap=>{
             snap.forEach(doc=>{
@@ -302,4 +302,5 @@ button:hover {
   color: rgba(255,255,255,.8);
 text-align: center;
 }
+
   </style>

@@ -91,7 +91,7 @@
                     like_count:0,
                     stock:selectedc,
                     time: firebase.firestore.FieldValue.serverTimestamp(),
-                    type: 'buy',
+                    type: 'sell',
                     uid : $user
 
                 });

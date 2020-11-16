@@ -4,6 +4,7 @@
 import { onMount } from 'svelte';
 import { goto } from '@sapper/app';
 import { user, userName } from './_stores';
+import Feed from './feed.svelte';
 
 let balance;
   	let numbers = 100;
@@ -14,6 +15,7 @@ let balance;
 	];
 	let selected = 	questions[0];
 	let u;
+let loading = true;
 
 	onMount(async ()=>{
   		if ($user) {
@@ -22,13 +24,14 @@ let balance;
 				.then(doc =>{
     				if (doc.exists) {
 						balance = doc.data().balance;
+						loading = false
 					} 
 					else {
 						goto('/login')
 						console.log("No such document!");
 					}
 			}).catch(function(error) {
-				goto('l/ogin')
+				goto('/login')
     			console.log("Error getting document:", error);
 			});
   		} else {
@@ -46,7 +49,7 @@ let balance;
 						console.log("No such document!");
 					}
 			}).catch(function(error) {
-				goto('l/ogin')
+				goto('/login')
     			console.log("Error getting document:", error);
 			});
 				}
@@ -193,7 +196,9 @@ button{
 </style>
 
 <main>
-
+{#if loading}
+	Loading...
+{:else}
 	<div class='center'>
 		<h1> <title>Balance</title> </h1>
 		
@@ -222,4 +227,5 @@ button{
 {/if}
 
 </div>
+{/if}
 </main>

@@ -1,12 +1,8 @@
 <script>
   import TransactionPost from '../components/TransactionPost.svelte';
-  import Leftbar from "../components/Leftbar.svelte";
-  
-  import {onMount} from 'svelte';
-  import { goto, stores } from '@sapper/app';
+  import { onMount } from 'svelte';
+  import { goto } from '@sapper/app';
 	import { user,userName } from './_stores';
-  const {page} = stores();
-  const { slug } = $page.params;
 
   let loading = true;
   export var posts = [];
@@ -19,16 +15,24 @@
     loggedIn = true
     mount()
   } 
-  // $: if (!$userName) {
-  //   goto('login')
-  // }
 
+  onMount(async ()=>{
+  		if (!$user) { 
+				goto('/login')
+  		}
+  });
+  
   async function mount() {
     await firebase.firestore().collection("users").where("username", "==", $userName)
         .get()
         .then(snap=>{
             snap.forEach(doc=>{
-              currentUser = new User(doc.data().uid, doc.data().username, doc.data().email, doc.data().balance, doc.data().picture,doc.data().bio)
+              if (doc.exists) {
+                currentUser = new User(doc.data().uid, doc.data().username, doc.data().email, doc.data().balance, doc.data().picture,doc.data().bio)
+					    } else {
+						    goto('/login')
+						    console.log("No such document!");
+					    }
             })
         }).then(()=> {
             currentUid = $user
@@ -36,7 +40,6 @@
         .then(() => {
           getData()
        })
-    getData()
   }
 
   class User {
@@ -48,6 +51,10 @@
       this.picture = picture;
       this.bio = bio || ""
     }
+  }
+
+  function redirect() {
+    goto('/login')
   }
 
   async function getData() {
@@ -84,7 +91,8 @@
                           caption: item.data().caption,
                           likeStatus: like.status,
                           likeId: like.id,
-                          comments: finalComments
+                          comments: finalComments,
+                          dateCompare: item.data().time.toDate()
                         }
                         userPosts = [...userPosts, post]
                         posts = [...userPosts];
@@ -96,6 +104,7 @@
               })
             })
           })
+          posts.sort((a,b) => a.dateCompare <= b.dateCompare && a.dateCompare <= b.dateCompare);
           return userPosts
         })
       } else {
